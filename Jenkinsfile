@@ -3,8 +3,9 @@ pipeline {
 
     stages {
         stage('Clone Repo') {
-            steps {
-                git url: 'https://github.com/23f-3004447/WeatherApp.git', branch: 'main'
+        steps {
+            git url: 'https://github.com/23f-3004447/WeatherApp.git',
+                credentialsId: 'c912f2bd-89f1-40c8-90bb-4153f840ac86'
             }
         }
 
