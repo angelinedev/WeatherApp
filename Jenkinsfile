@@ -3,10 +3,10 @@ pipeline {
 
     stages {
         stage('Clone Repo') {
-        steps {
-            git branch: 'main',
-            url: 'https://github.com/23f-3004447/WeatherApp.git',
-                credentialsId: 'c912f2bd-89f1-40c8-90bb-4153f840ac86'
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/23f-3004447/WeatherApp.git',
+                    credentialsId: 'c912f2bd-89f1-40c8-90bb-4153f840ac86'
             }
         }
 
@@ -19,11 +19,11 @@ pipeline {
         stage('Run Flask App') {
             steps {
                 sh '''
-                # Kill any process on port 5000
-                fuser -k 5000/tcp || true
+                    # Kill anything running on port 5000 (Flask default)
+                    fuser -k 5000/tcp || true
 
-                # Run Flask in background, log output to flask.log
-                nohup python3 app.py > flask.log 2>&1 &
+                    # Run Flask app in background
+                    nohup python3 app.py > flask.log 2>&1 &
                 '''
             }
         }
