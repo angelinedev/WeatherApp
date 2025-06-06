@@ -8,19 +8,19 @@ pipeline {
             }
         }
 
+        stage('Install Dependencies') {
+            steps {
+                sh 'pip3 install -r requirements.txt'
+            }
+        }
+
         stage('Run Flask App') {
             steps {
                 sh '''
-                # Stop anything already using port 5000
+                # Kill any process on port 5000
                 fuser -k 5000/tcp || true
 
-                # Optional: create a Python venv if you're fancy
-                # python3 -m venv venv && source venv/bin/activate
-
-                # Install Flask & requests
-                pip3 install flask requests || true
-
-                # Start Flask app in background
+                # Run Flask in background, log output to flask.log
                 nohup python3 app.py > flask.log 2>&1 &
                 '''
             }
