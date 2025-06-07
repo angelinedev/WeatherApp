@@ -6,7 +6,7 @@ pipeline {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/23f-3004447/WeatherApp.git',
-                    credentialsId: 'c912f2bd-89f1-40c8-90bb-4153f840ac86'
+                    credentialsId: 'a5308c41-1e1b-4839-af30-fe85ccdef2fa'
             }
         }
 
