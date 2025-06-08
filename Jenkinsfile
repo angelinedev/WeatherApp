@@ -19,10 +19,7 @@ pipeline {
         stage('Run Flask App') {
             steps {
                 sh '''
-                    # Kill anything running on port 5000 (Flask default)
                     fuser -k 5000/tcp || true
-
-                    # Run Flask app in background
                     nohup python3 app.py > flask.log 2>&1 &
                 '''
             }
