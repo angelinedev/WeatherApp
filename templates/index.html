@@ -1,55 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #1e3c72, #2a5298);
-            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
+            position: relative;
         }
+
+        #background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            transition: background 0.5s;
+            background-size: cover;
+        }
+
         #weatherApp {
-            background: rgba(0,0,0,0.5);
-            padding: 20px;
-            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
             text-align: center;
-            width: 350px;
+            width: 400px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
+
         input[type=text] {
-            padding: 10px;
+            padding: 12px;
             border: none;
-            border-radius: 6px;
-            width: 80%;
+            border-radius: 8px;
+            width: 85%;
             margin-bottom: 15px;
+            font-size: 16px;
         }
+
         button {
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             background-color: #4CAF50;
             color: white;
             font-weight: bold;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
+
         button:hover {
             background-color: #45a049;
         }
+
         .error {
             color: #ff6b6b;
             margin-top: 10px;
         }
+
         .weather-result {
             margin-top: 20px;
-            font-size: 18px;
+            font-size: 20px;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
+    <div id="background" class="{{ weather.condition if weather else '' }}"></div>
     <div id="weatherApp">
         <h1>Weather App</h1>
         <form method="POST">
@@ -70,6 +100,19 @@
             </div>
         {% endif %}
     </div>
+
+    <script>
+        // Set the background based on the weather condition
+        const condition = "{{ weather.condition if weather else '' }}";
+        const background = document.getElementById('background');
+
+        if (condition === 'sunny') {
+            background.style.backgroundImage = "url('https://media.tenor.com/images/1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c/tenor.gif')";
+        } else if (condition === 'cloudy') {
+            background.style.backgroundImage = "url('https://media.tenor.com/images/20902480/moving-clouds-world-meteorological-day-stormscapes-timelapse-clouds-shifting-gif-20902480.gif')";
+        } else if (condition === 'rain') {
+            background.style.backgroundImage = "url('https://media.tenor.com/images/23238890/coffee-gif-23238890.gif')";
+        }
+    </script>
 </body>
 </html>
-
