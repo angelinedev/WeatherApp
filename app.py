@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-API_KEY = "df935c4f2a261477f519504d4dbea080"
+API_KEY = "your_secret_api_key"
 @app.route('/', methods=['GET', 'POST'])
 def home():
     weather = None
