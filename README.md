@@ -85,94 +85,82 @@ pipeline {
         }
     }
 }
-5. Configuration Details
-IAM Role: EC2WebAppRole
-Permissions: EC2, CloudWatch
+## 5. Configuration Details
 
-Security Group: sg-09328a13b7916ba38
-Inbound Rules:
+### IAM Role
+- **Name:** `EC2WebAppRole`
+- **Permissions:** EC2, CloudWatch
 
-Port 22 (SSH)
+### Security Group
+- **ID:** `sg-09328a13b7916ba38`
+- **Inbound Rules:**
+  - Port 22 (SSH)
+  - Port 80 (HTTP)
+  - Port 443 (HTTPS)
+  - Flask Ports: 5000, 8000, etc.
 
-Port 80 (HTTP)
+### EC2 Instance Tags
+- `Name = WeatherAppServer`
+- `Role = WebApp`
 
-Port 443 (HTTPS)
+### CloudWatch Agent
+Configured to collect:
+- CPU Utilization
+- Network In/Out
+- Custom application logs (`flask.log`)
 
-Flask ports: 5000, 8000, etc.
+---
 
-EC2 Instance Tags:
+## 6. Monitoring and Dashboard
 
-Name = WeatherAppServer
+### Service Used
+- **Amazon CloudWatch**
 
-Role = WebApp
+### Metrics Tracked
+- CPU Utilization  
+- Network In/Out  
+- Application logs (via log groups)  
+- Custom metric for app failure  
 
-CloudWatch Agent: Configured to collect:
+### Alert Setup
+- **SNS Topic:** `arn:aws:sns:eu-north-1:789665426725:weather`
+- **CloudWatch Alarm:**
+  - Triggered when custom metric `failure > 70` within 1 day
+- **SNS Action:**
+  - Sends alert to subscribers when alarm state = `In alarm`
 
-CPU Utilization
+---
 
-Network In/Out
+## 7. Resilience Simulation Report
 
-Custom application logs (flask.log)
+### Alarm Details
+- **Alarm Name:** `failure`
+- **Metric Tracked:** Custom metric `failure`
+- **Condition:** Value > 70 for 1 datapoint within 1 day
+- **Trigger Time:** 2025-06-09 18:29:48 (Local Time)
 
-6. Monitoring and Dashboard
-Service Used: Amazon CloudWatch
+### Alarm History
+- 2025-06-09 18:09:01 – Alarm created  
+- 2025-06-09 18:29:48 – Alarm transitioned to `In alarm`
 
-Metrics Tracked:
-CPU Utilization
+### SNS Action
+- Notification sent to `weather` topic
+- No auto-remediation configured
 
-Network In/Out
+### Admin Response
+- Manual inspection of Flask logs
+- Identified abnormal spike in values
+- Flask service restarted manually
 
-Application logs (via log groups)
+---
 
-Custom metric for app failure
+## 8. Conclusion
 
-Alert Setup:
-SNS Topic: arn:aws:sns:eu-north-1:789665426725:weather
-
-CloudWatch Alarm:
-Triggered when custom metric failure > 70 within 1 day
-
-SNS Action:
-Sends alert to subscribers when alarm state = In alarm
-
-7. Resilience Simulation Report
-Alarm Details:
-Alarm Name: failure
-
-Metric Tracked: Custom metric failure
-
-Condition: Value > 70 for 1 datapoint within 1 day
-
-Trigger Time: 2025-06-09 18:29:48 (Local Time)
-
-Alarm History:
-2025-06-09 18:09:01 – Alarm created
-
-2025-06-09 18:29:48 – Alarm transitioned to In alarm
-
-SNS Action:
-Notification sent to weather topic
-
-No auto-remediation configured
-
-Admin Response:
-Manual inspection of Flask logs
-
-Identified abnormal spike in values
-
-Flask service restarted manually
-
-8. Conclusion
 This project demonstrates:
 
-✅ Full infrastructure provisioning using Terraform
-
-✅ CI/CD pipeline setup with Jenkins
-
-✅ Secure and scalable AWS architecture
-
-✅ Real-time application monitoring and alerting via CloudWatch
-
-✅ System failure simulation and response using custom metrics and SNS
-
-✅ Successful deployment and live hosting of a Python Flask web app
+- ✅ Full infrastructure provisioning using Terraform  
+- ✅ CI/CD pipeline setup with Jenkins  
+- ✅ Secure and scalable AWS architecture  
+- ✅ Real-time application monitoring and alerting via CloudWatch  
+- ✅ System failure simulation and response using custom metrics and SNS  
+- ✅ Successful deployment and live hosting of a Python Flask web app
