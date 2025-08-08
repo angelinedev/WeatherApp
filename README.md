@@ -52,12 +52,11 @@ resource "aws_instance" "weather_ec2" {
     nohup python3 app.py > flask.log 2>&1 &
   EOF
 }
+```
 4. Jenkinsfile
 Pipeline script to automate deployment
 
-groovy
-Copy
-Edit
+
 pipeline {
     agent any
 
