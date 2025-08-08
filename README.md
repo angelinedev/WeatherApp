@@ -156,6 +156,8 @@ Configured to collect:
 
 ## 8. Conclusion
 
+Presentation video : https://drive.google.com/file/d/1WYr6MuO7CNDVn-isNNQCuCI7NXAvt2p9/view?usp=sharing
+
 This project demonstrates:
 
 - ✅ Full infrastructure provisioning using Terraform  
