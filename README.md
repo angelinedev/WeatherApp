@@ -2,6 +2,8 @@
 
 **Project Title:** Cloud Infrastructure Project - Angeline CSE ‘A’
 
+---
+
 ## 1. Overview
 
 This project demonstrates the complete deployment of a Python Flask web application on AWS using Terraform, Jenkins, and CloudWatch. It includes setting up infrastructure as code, configuring a CI/CD pipeline, implementing monitoring and alerting, and simulating a system failure for resilience testing.
@@ -10,13 +12,13 @@ This project demonstrates the complete deployment of a Python Flask web applicat
 
 ## 2. Architecture Overview
 
-- AWS EC2 Instance running a Flask Web App
-- Security Group allowing HTTP, HTTPS, and SSH
-- IAM Role for EC2 with access to CloudWatch
-- CloudWatch monitoring for metrics and logs
-- SNS for alert notifications
-- Jenkins pipeline for CI/CD automation
-- GitHub repository as source code management
+- AWS EC2 Instance running a Flask Web App  
+- Security Group allowing HTTP, HTTPS, and SSH  
+- IAM Role for EC2 with access to CloudWatch  
+- CloudWatch monitoring for metrics and logs  
+- SNS for alert notifications  
+- Jenkins pipeline for CI/CD automation  
+- GitHub repository as source code management  
 
 ---
 
@@ -50,7 +52,7 @@ resource "aws_instance" "weather_ec2" {
     nohup python3 app.py > flask.log 2>&1 &
   EOF
 }
-## 4. Jenkinsfile
+4. Jenkinsfile
 Pipeline script to automate deployment
 
 groovy
@@ -84,17 +86,26 @@ pipeline {
         }
     }
 }
-
-
-## 5. Configuration Details
+5. Configuration Details
 IAM Role: EC2WebAppRole
 Permissions: EC2, CloudWatch
 
 Security Group: sg-09328a13b7916ba38
-Inbound Rules: 22 (SSH), 80 (HTTP), 443 (HTTPS), and Flask ports (5000, 8000, etc.)
+Inbound Rules:
+
+Port 22 (SSH)
+
+Port 80 (HTTP)
+
+Port 443 (HTTPS)
+
+Flask ports: 5000, 8000, etc.
 
 EC2 Instance Tags:
-Name=WeatherAppServer, Role=WebApp
+
+Name = WeatherAppServer
+
+Role = WebApp
 
 CloudWatch Agent: Configured to collect:
 
@@ -104,11 +115,10 @@ Network In/Out
 
 Custom application logs (flask.log)
 
-## 6. Monitoring and Dashboard
+6. Monitoring and Dashboard
 Service Used: Amazon CloudWatch
 
 Metrics Tracked:
-
 CPU Utilization
 
 Network In/Out
@@ -118,16 +128,16 @@ Application logs (via log groups)
 Custom metric for app failure
 
 Alert Setup:
-
 SNS Topic: arn:aws:sns:eu-north-1:789665426725:weather
 
-CloudWatch Alarm on custom metric failure > 70 within 1 day
+CloudWatch Alarm:
+Triggered when custom metric failure > 70 within 1 day
 
-SNS sends notification to subscribers when alarm state = In alarm
+SNS Action:
+Sends alert to subscribers when alarm state = In alarm
 
-## 7. Resilience Simulation Report
+7. Resilience Simulation Report
 Alarm Details:
-
 Alarm Name: failure
 
 Metric Tracked: Custom metric failure
@@ -137,26 +147,23 @@ Condition: Value > 70 for 1 datapoint within 1 day
 Trigger Time: 2025-06-09 18:29:48 (Local Time)
 
 Alarm History:
-
 2025-06-09 18:09:01 – Alarm created
 
 2025-06-09 18:29:48 – Alarm transitioned to In alarm
 
 SNS Action:
-
 Notification sent to weather topic
 
 No auto-remediation configured
 
 Admin Response:
-
 Manual inspection of Flask logs
 
 Identified abnormal spike in values
 
 Flask service restarted manually
 
-## 8. Conclusion
+8. Conclusion
 This project demonstrates:
 
 ✅ Full infrastructure provisioning using Terraform
@@ -170,4 +177,3 @@ This project demonstrates:
 ✅ System failure simulation and response using custom metrics and SNS
 
 ✅ Successful deployment and live hosting of a Python Flask web app
-
